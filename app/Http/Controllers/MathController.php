@@ -4,28 +4,28 @@ namespace App\Http\Controllers;
 
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+
 
 class MathController extends Controller
 {
-    public function calculateInputs(Request $request){
+    
+
+    public function list(Request $request){
+
+      $token = "AoLAQIfceOZvTL8dQLgLDZkQzr3ONVBY";
+      $value1 = $request->input("q");
+      $value2 = $request->input("language");
 
       if(is_null($request)){
-        return response()->json(['message' => 'Results Not Found'], 404);
+        $data = Http::get("http://dataservice.accuweather.com/locations/v1/cities/search?apikey=$token&q=Manila&language=en-us&details=false")->json();
+        return view("welcome", ['data'=>$data]);
       }
 
-      $results = array();
-      $value1 = $request->input("value1");
-      $value2 = $request->input("value2");
-      $value3 = $request->input("value3");
       
-      $rectangle = $value1 * $value2;
-      $cuboid = $value1 * $value2 * $value3;
-      $square = $value1 * $value1;
-
-      array_push($results, $rectangle, $cuboid, $square);
-
-      return view('welcome',['results' => $results]);
-
-
+      $data = Http::get("http://dataservice.accuweather.com/locations/v1/cities/search?apikey=$token&q=$value1&language=$value2&details=false")->json();
+      
+      return view("welcome", ['data'=>$data]);
     }
 }

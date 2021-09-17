@@ -15,7 +15,7 @@
 <body class="bg-white">
   <div class="container bg-opacity-dark p-5">
     <div class="header border border-dark bg-opacity-tan p-5 mb-5 mx-4">
-      <h1 class="text-center">MIDTERM EXAM</h1>
+      <h1 class="text-center">API Assignment</h1>
       <h5 class="text-center">James Allen Maye III</h5>
       <h6 class="text-center">BSIT - 4A </h6>
 
@@ -26,14 +26,12 @@
         <form action="/" method="get">
           @csrf
           <div class="row m-2">
-            <div class="col-sm-4"><label for="value1">Length</label></div>
-            <div class="col-sm-4"><label for="value1">Width</label></div>
-            <div class="col-sm-4"><label for="value1">Height</label></div>
+            <div class="col-sm-6"><label for="value1">City</label></div>
+            <div class="col-sm-6"><label for="value1">Language</label></div>
           </div>
           <div class="row m-2">
-            <div class="col-sm-4"><input type="text" name="value1" id="" placeholder="Input Value"></div>
-            <div class="col-sm-4"><input type="text" name="value2" id="" placeholder="Input Value"></div>
-            <div class="col-sm-4"><input type="text" name="value3" id="" placeholder="Input Value"></div>
+            <div class="col-sm-6"><input type="text" name="q" id="" placeholder="Input City" value="Manila"></div>
+            <div class="col-sm-6"><input type="text" name="language" id="" placeholder="en-us" value="en-us"></div>
           </div>
     
           <button type="submit" class="mt-3 btn btn-info">Submit</button>
@@ -44,15 +42,29 @@
     <div class="border border-dark bg-opacity-tan p-5 my-5 mx-4">
       <div class="results text-center bg-opacity-secondary p-3">
         <div class="row">
-          <div class="col-sm-4"><h3>Rectangle</h3></div>
-          <div class="col-sm-4"><h3>Cuboid</h3></div>
-          <div class="col-sm-4"><h3>Square</h3></div>
+          <div class="col-sm-12"><h3>Search Results</h3></div>
         </div>
+        <div class="row border-dark m-4">
+          @isset($data)
+          <div class="col-3"><h4>Country</h4></div>
+          <div class="col-9">
+            {{print_r($data[0]["Country"]["LocalizedName"])}}
+          </div>
+          <div class="col-3"><h4>World Position</h4></div>
+            <div class="col-9">
 
-        <div class="row">
-          @foreach($results as $result)
-            <div class="col-sm-4"><h3>{{ $result}}</h3></div>
-          @endforeach
+              <div class="row">
+                <div class="col-4">
+                  <p>Latitude</p>{{print_r($data[0]["GeoPosition"]["Latitude"])}}<br>
+                </div>
+                <div class="col-4">
+                  <p>Longitude</p>{{print_r($data[0]["GeoPosition"]["Longitude"])}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          @endisset
         </div>
       </div>
     </div>
